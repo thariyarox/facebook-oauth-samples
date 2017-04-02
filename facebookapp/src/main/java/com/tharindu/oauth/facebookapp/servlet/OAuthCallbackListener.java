@@ -39,7 +39,7 @@ public class OAuthCallbackListener extends HttpServlet {
             final String TOKEN_ENDPOINT =
                     "https://graph.facebook.com/oauth/access_token";
             final String GRANT_TYPE = "authorization_code";
-            final String REDIRECT_URI = "http://localhost:8080/facebookapp/callback";
+            final String REDIRECT_URI = "http://54.191.237.201:8080/facebookapp/callback";
             final String CLIENT_ID = "183994178774345";
             final String CLIENT_SECRET = "dc321ebea29283cd4092b6b476ccadbd";
             // Generate POST request
