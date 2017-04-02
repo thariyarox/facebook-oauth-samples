@@ -1,1 +1,0 @@
-mvn -Dmaven.tomcat.port=8080 -Dmaven.tomcat.path=/facebookapp tomcat:run
