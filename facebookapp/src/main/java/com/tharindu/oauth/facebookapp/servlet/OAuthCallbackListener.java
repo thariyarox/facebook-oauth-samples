@@ -8,11 +8,14 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tharindu.oauth.facebookapp.data.ResourceDataHolder;
+import com.tharindu.oauth.facebookapp.util.FileOperations;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -33,13 +36,16 @@ public class OAuthCallbackListener extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException,
             IOException {
+
+        FileOperations fileOperations = new FileOperations();
+
 // Detect the presence of an authorization code
         String authorizationCode = request.getParameter("code");
         if (authorizationCode != null && authorizationCode.length() > 0) {
             final String TOKEN_ENDPOINT =
                     "https://graph.facebook.com/oauth/access_token";
             final String GRANT_TYPE = "authorization_code";
-            final String REDIRECT_URI = "http://54.191.237.201:8080/facebookapp/callback";
+            final String REDIRECT_URI = "http://54.149.197.89:8080/facebookapp/callback";
             final String CLIENT_ID = "183994178774345";
             final String CLIENT_SECRET = "dc321ebea29283cd4092b6b476ccadbd";
             // Generate POST request
@@ -79,6 +85,9 @@ public class OAuthCallbackListener extends HttpServlet {
                     JSONObject jsonobj = (JSONObject) obj;
                     accessToken = jsonobj.get("access_token").toString();
                     System.out.println("Access token: " + accessToken);
+
+                    fileOperations.writeToFile(accessToken);
+
                 } catch (ParseException e) {
                     System.out.println("Error while parsing the response from facebook : " + e.getMessage());
                 }
@@ -105,13 +114,19 @@ public class OAuthCallbackListener extends HttpServlet {
 
             httpClient.close();
 
+            //Generate a unique key
+            int randomNum = ThreadLocalRandom.current().nextInt(1, 9999999);
+            //Add the facebook response data to the resources map along with the key
+            ResourceDataHolder.getInstance().addResource(String.valueOf(randomNum), feedJson);
 
-            request.setAttribute("user_resource", feedJson);
+            fileOperations.writeToFile(feedJson);
 
-            request.getRequestDispatcher("userdata.jsp").forward(request, response);
+            //request.setAttribute("user_resource", feedJson);
+
+            //request.getRequestDispatcher("userdata.jsp").forward(request, response);
 
 
-            //response.sendRedirect("userdata.jsp");
+            response.sendRedirect("userdata.jsp?key=" + String.valueOf(randomNum));
 
         } else {
 // Handle failure
