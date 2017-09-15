@@ -45,9 +45,9 @@ public class OAuthCallbackListener extends HttpServlet {
             final String TOKEN_ENDPOINT =
                     "https://graph.facebook.com/oauth/access_token";
             final String GRANT_TYPE = "authorization_code";
-            final String REDIRECT_URI = "http://54.149.197.89:8080/facebookapp/callback";
-            final String CLIENT_ID = "183994178774345";
-            final String CLIENT_SECRET = "dc321ebea29283cd4092b6b476ccadbd";
+            final String REDIRECT_URI = "http://localhost:8080/facebookapp/callback";
+            final String CLIENT_ID = "145481119385038";
+            final String CLIENT_SECRET = "1c2a31e707cc10f367a7dfa7a76442ae";
             // Generate POST request
             HttpPost httpPost = new HttpPost(TOKEN_ENDPOINT +
                     "?grant_type=" + URLEncoder.encode(GRANT_TYPE,
@@ -96,7 +96,7 @@ public class OAuthCallbackListener extends HttpServlet {
             // Request profile and feed data with access token
 // Request feed data with access token
             String requestUrl =
-                    "https://graph.facebook.com/v2.8/me/feed?limit=25";
+                    "https://graph.facebook.com/v2.10/me/feed?limit=25";
 
             httpPost = new HttpPost(requestUrl);
             httpPost.addHeader("Authorization", "Bearer " + accessToken);
