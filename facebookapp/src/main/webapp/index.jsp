@@ -28,7 +28,7 @@
             var RESPONSE_TYPE = "code";
             var CLIENT_ID = "145481119385038";
             var REDIRECT_URI = "http://localhost:8080/facebookapp/callback";
-            var SCOPE = "public_profile user_posts user_friends user_photos publish_actions";
+            var SCOPE = "public_profile user_posts user_friends user_photos";
 // Build authorization request endpoint
             var requestEndpoint = AUTH_ENDPOINT + "?" +
                     "response_type=" + encodeURIComponent(RESPONSE_TYPE) + "&" +
